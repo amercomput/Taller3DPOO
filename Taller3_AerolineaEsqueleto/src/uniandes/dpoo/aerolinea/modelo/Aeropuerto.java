@@ -21,7 +21,7 @@ public class Aeropuerto
     private String nombreCiudad;
     
     
-    public Aeropuerto(String nombre, String nombreCiudad, double latitud, double longitud) {
+    public Aeropuerto(String nombre, String nombreCiudad, String ciudad, double latitud, double longitud) {
     	this.nombre = nombre;
     	this.nombreCiudad = nombreCiudad;
     	this.latitud = latitud;

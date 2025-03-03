@@ -90,6 +90,10 @@ public class Aerolinea
         this.aviones.add( avion );
     }
 
+	public void agregarVuelo(Vuelo vuelo) {
+		vuelos.add(vuelo);
+	}
+
     /**
      * Agrega un nuevo cliente a la aerolínea
      * @param cliente
@@ -126,6 +130,15 @@ public class Aerolinea
     public Collection<Avion> getAviones( )
     {
         return aviones;
+    }
+    
+    public Avion getAvion(String nombreAvion) {
+        for (Avion av : aviones) {
+            if (av.getNombre().equalsIgnoreCase(nombreAvion)) {  
+                return av; 
+            }
+        }
+        return null;  
     }
 
     /**
@@ -190,7 +203,7 @@ public class Aerolinea
         for(Vuelo v: vuelos) {
         	tiquetes.addAll(v.getTiquetes());
         }
-        return  tiquetes;
+        return tiquetes;
 
     }
 
@@ -316,5 +329,8 @@ public class Aerolinea
         // TODO Implementar el método
         return "";
     }
+
+
+
 
 }
