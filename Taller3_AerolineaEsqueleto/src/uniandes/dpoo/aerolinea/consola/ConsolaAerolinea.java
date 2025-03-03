@@ -7,7 +7,7 @@ import uniandes.dpoo.aerolinea.modelo.Aerolinea;
 import uniandes.dpoo.aerolinea.persistencia.CentralPersistencia;
 import uniandes.dpoo.aerolinea.persistencia.TipoInvalidoException;
 
-public class ConsolaArerolinea extends ConsolaBasica
+public class ConsolaAerolinea extends ConsolaBasica
 {
     private Aerolinea unaAerolinea;
 
@@ -39,7 +39,7 @@ public class ConsolaArerolinea extends ConsolaBasica
 
     public static void main( String[] args )
     {
-        ConsolaArerolinea ca = new ConsolaArerolinea( );
+        ConsolaAerolinea ca = new ConsolaAerolinea( );
         ca.correrAplicacion( );
     }
 }
