@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="Taller3_AerolineaEsqueleto/src"/>
+	<classpathentry kind="lib" path="__MACOSX/Taller3_AerolineaEsqueleto/lib/._org.json-1.6-20240205.jar"/>
+	<classpathentry kind="lib" path="Taller3_AerolineaEsqueleto/lib/org.json-1.6-20240205.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
