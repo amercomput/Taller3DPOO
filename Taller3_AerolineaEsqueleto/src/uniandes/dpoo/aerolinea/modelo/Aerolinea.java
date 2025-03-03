@@ -9,7 +9,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import uniandes.dpoo.aerolinea.exceptions.AeropuertoDuplicadoException;
 import uniandes.dpoo.aerolinea.exceptions.InformacionInconsistenteException;
 import uniandes.dpoo.aerolinea.exceptions.VueloSobrevendidoException;
 import uniandes.dpoo.aerolinea.modelo.cliente.Cliente;
@@ -223,8 +225,18 @@ public class Aerolinea
      */
     public void cargarAerolinea( String archivo, String tipoArchivo ) throws TipoInvalidoException, IOException, InformacionInconsistenteException
     {
-        // TODO implementar
-    }
+        IPersistenciaAerolinea persistencia = CentralPersistencia.getPersistenciaAerolinea(tipoArchivo);
+        
+        try {
+			persistencia.cargarAerolinea(archivo, this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InformacionInconsistenteException e) {
+			e.printStackTrace();
+		} catch (AeropuertoDuplicadoException e) {
+			e.printStackTrace();
+		}    
+       }
 
     /**
      * Salva la información de la aerlínea en un archivo
@@ -235,7 +247,9 @@ public class Aerolinea
      */
     public void salvarAerolinea( String archivo, String tipoArchivo ) throws TipoInvalidoException, IOException
     {
-        // TODO implementar
+        IPersistenciaAerolinea persistencia = CentralPersistencia.getPersistenciaAerolinea(tipoArchivo);
+        
+        persistencia.salvarAerolinea(archivo, this);
     }
 
     /**
@@ -305,9 +319,31 @@ public class Aerolinea
      */
     public int venderTiquetes( String identificadorCliente, String fecha, String codigoRuta, int cantidad ) throws VueloSobrevendidoException, Exception
     {
-        // TODO Implementar el método
-        return -1;
-    }
+            Vuelo vuelo = getVuelo(codigoRuta, fecha);
+            Cliente cliente = getCliente(identificadorCliente);
+
+            if (vuelo == null) {
+                throw new InformacionInconsistenteException("El vuelo con código de ruta " + codigoRuta + " en la fecha " + fecha + " no existe.");
+            }
+            if (cliente == null) {
+                throw new InformacionInconsistenteException("El cliente con identificador " + identificadorCliente + " no existe.");
+            }
+
+            int capacidadDisponible = vuelo.getAvion().getCapacidad() - vuelo.getTiquetes().size();
+            if (capacidadDisponible < cantidad) {
+                throw new VueloSobrevendidoException(vuelo);
+            }
+
+            int costoTotal = 0;
+            for (int i = 0; i < cantidad; i++) {
+                Tiquete tiquete = new Tiquete(UUID.randomUUID().toString(), vuelo, cliente, 0);
+                vuelo.agregarTiquete(tiquete);
+                costoTotal += tiquete.getTarifa();
+            }
+
+            return costoTotal;
+        }
+    
 
     /**
      * Registra que un cierto vuelo fue realizado
@@ -316,7 +352,12 @@ public class Aerolinea
      */
     public void registrarVueloRealizado( String fecha, String codigoRuta )
     {
-        // TODO Implementar el método
+        Vuelo vuelo = getVuelo(codigoRuta, fecha);
+        if (vuelo != null) {
+            for (Tiquete tiquete : vuelo.getTiquetes()) {
+                tiquete.marcarComoUsado();
+            }
+        }
     }
 
     /**
@@ -326,11 +367,20 @@ public class Aerolinea
      */
     public String consultarSaldoPendienteCliente( String identificadorCliente )
     {
-        // TODO Implementar el método
-        return "";
+        Cliente cliente = getCliente(identificadorCliente);
+        if (cliente == null) {
+            return "Cliente no encontrado.";
+        }
+
+        int saldoPendiente = 0;
+        for (Vuelo vuelo : vuelos) {
+            for (Tiquete tiquete : vuelo.getTiquetes()) {
+                if (tiquete.getCliente().equals(cliente) && !tiquete.esUsado()) {
+                    saldoPendiente += tiquete.getTarifa();
+                }
+            }
+        }
+        return "El saldo pendiente del cliente " + identificadorCliente + " es: " + saldoPendiente;
     }
-
-
-
-
+    
 }

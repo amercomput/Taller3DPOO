@@ -56,6 +56,11 @@ public class Vuelo {
 	           avion.equals(otroVuelo.avion);
 	}
 
+	public void agregarTiquete(Tiquete tiquete) {
+		tiquetes.add(tiquete);
+		
+	}
+
 	
 	
 	
