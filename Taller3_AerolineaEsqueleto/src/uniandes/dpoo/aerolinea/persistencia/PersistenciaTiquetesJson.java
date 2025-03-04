@@ -85,6 +85,7 @@ public class PersistenciaTiquetesJson implements IPersistenciaTiquetes
         {
             JSONObject cliente = jClientes.getJSONObject( i );
             String tipoCliente = cliente.getString( TIPO_CLIENTE );
+            String identificador = cliente.getString("identificador");
             Cliente nuevoCliente = null;
             // En las siguientes líneas se utilizan dos estrategias para implementar la carga de objetos: en la primera estrategia, la carga de los objetos
             // lo hace alguien externo al objeto que se carga; en la segunda estrategia, los objetos saben cargarse.
@@ -96,7 +97,7 @@ public class PersistenciaTiquetesJson implements IPersistenciaTiquetes
                 // Al revisar el código de la clase ClienteNatural, no hay nada que tenga que ver con cargar o salvar.
                 // En este caso, la persistencia es una preocupación transversal de la que no se ocupa la clase ClienteNatural
                 String nombre = cliente.getString( NOMBRE_CLIENTE );
-                nuevoCliente = new ClienteNatural( nombre );
+                nuevoCliente = new ClienteNatural( nombre, identificador );
             }
             else
             {
@@ -105,7 +106,7 @@ public class PersistenciaTiquetesJson implements IPersistenciaTiquetes
                 // En este caso, la persistencia es una preocupación de la cual se ocupa la clase ClienteCorporativo
                 nuevoCliente = ClienteCorporativo.cargarDesdeJSON( cliente );
             }
-            if( !aerolinea.existeCliente( nuevoCliente.getIdentificador( ) ) )
+            if( !aerolinea.existeCliente( nuevoCliente.getIdentificador( ) ) || nuevoCliente.getIdentificador( )!=null )
                 aerolinea.agregarCliente( nuevoCliente );
             else
                 throw new ClienteRepetidoException( nuevoCliente.getTipoCliente( ), nuevoCliente.getIdentificador( ) );

@@ -19,12 +19,15 @@ public class ClienteCorporativo extends Cliente
     private String nombreEmpresa;
     private static  int tamanoEmpresa;
     public List<Tiquete> tiquetes;
-    private String identificador; 
+    private String identificador;
+    private String nombre;
     
-    public ClienteCorporativo(String nombreEmpresa, int tamano) {
+    public ClienteCorporativo(String nombreEmpresa, int tamano, String identificador) {
 		this.nombreEmpresa = nombreEmpresa;
 		ClienteCorporativo.tamanoEmpresa = tamano;
 		tiquetes = new ArrayList<>();
+		this.identificador = identificador;
+		
 	}
 
     public String getNombreEmpresa() {
@@ -40,13 +43,10 @@ public class ClienteCorporativo extends Cliente
 		return CORPORATIVO;
 	}
 	
-	public void setIndentificador(String id) {
-		this.identificador = id;
-	}
 	
 	@Override
 	public String getIdentificador() {
-		return identificador;
+		return this.identificador;
 	}
 
 	/**
@@ -60,7 +60,8 @@ public class ClienteCorporativo extends Cliente
     {
         String nombreEmpresa = cliente.getString( "nombreEmpresa" );
         int tam = cliente.getInt( "tamanoEmpresa" );
-        return new ClienteCorporativo( nombreEmpresa, tam );
+        String iden = cliente.getString("identificador");
+        return new ClienteCorporativo( nombreEmpresa, tam, iden );
     }
 
     /**
@@ -73,8 +74,16 @@ public class ClienteCorporativo extends Cliente
         jobject.put( "nombreEmpresa", this.nombreEmpresa );
         jobject.put( "tamanoEmpresa", tamanoEmpresa );
         jobject.put( "tipo", CORPORATIVO );
+        jobject.put("identificador", identificador);
         return jobject;
     }
+
+
+	@Override
+	public String getNombre() {
+		// TODO Auto-generated method stub
+		return this.nombre;
+	}
 
 
 

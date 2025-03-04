@@ -2,21 +2,25 @@
 	"clientes": [
 		{
 			"tipoCliente": "Natural",
-			"nombre": "Alice"
+			"nombre": "Alice", 
+			"identificador": "BBBB"
 		},
 		{
 			"tipoCliente": "CORPORATIVO",
 			"nombreEmpresa": "Apple",
-			"tamanoEmpresa": 3
+			"tamanoEmpresa": 3, 
+			"identificador": "AAAA"
 		},
 		{
 			"tipoCliente": "Natural",
-			"nombre": "Bob"
+			"nombre": "Bob", 
+			"identificador": "cccc"
 		},
 		{
 			"tipoCliente": "CORPORATIVO",
 			"nombreEmpresa": "Boeing",
-			"tamanoEmpresa": 2
+			"tamanoEmpresa": 2, 
+			"identificador": "ccccc"
 		}
 	],
 	"tiquetes": [

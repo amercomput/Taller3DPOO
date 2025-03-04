@@ -28,6 +28,9 @@ public abstract class Cliente {
         }
         return total;
     }
+    
+    
+    public abstract String getNombre();
 
     public void usarTiquetes(Vuelo vuelo) {
         for (Tiquete t : tiquetes) {
