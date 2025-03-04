@@ -1,0 +1,35 @@
+{
+    "aeropuertos": [
+        {
+            "codigo": "MDE",
+            "nombre": "Aeropuerto Olaya Herrera",
+            "ciudad": "Medellín",
+            "latitud": 6.219,
+            "longitud": -75.5906
+        },
+        {
+            "codigo": "BOG",
+            "nombre": "Aeropuerto El Dorado",
+            "ciudad": "Bogotá",
+            "latitud": 4.702,
+            "longitud": -74.146
+        }
+    ],
+    "rutas": [
+        {
+            "codigo": "4558",
+            "origen": "MDE",
+            "destino": "BOG",
+            "horaSalida": "08:00",
+            "horaLlegada": "09:30", 
+			"codigoRuta": "4558"
+        }
+    ],
+    "vuelos": [
+        {
+            "codigoRuta": "4558",
+            "fecha": "2024-11-05",
+            "avion": "Boeing-737"
+        }
+    ]
+}

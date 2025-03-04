@@ -19,6 +19,9 @@ public class ConsolaAerolinea extends ConsolaBasica
         try
         {
             unaAerolinea = new Aerolinea( );
+          
+            String archivoAerolinea = System.getProperty("user.dir") + "/datos/aerolinea.json";
+            unaAerolinea.cargarAerolinea(archivoAerolinea, CentralPersistencia.JSON);
             // String archivo = this.pedirCadenaAlUsuario( "Digite el nombre del archivo json con la información de una aerolinea" );
             String archivo = System.getProperty("user.dir") + "/datos/tiquetes.json";
             unaAerolinea.cargarTiquetes( archivo, CentralPersistencia.JSON );
