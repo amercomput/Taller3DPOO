@@ -87,40 +87,45 @@ public class PersistenciaTiquetesJson implements IPersistenciaTiquetes {
     }
 
     private void cargarTiquetes(Aerolinea aerolinea, JSONArray jTiquetes) throws InformacionInconsistenteTiqueteException {
+        int tiquetesCargados = 0;
         for (int i = 0; i < jTiquetes.length(); i++) {
-            JSONObject tiquete = jTiquetes.getJSONObject(i);
+            JSONObject tiqueteJson = jTiquetes.getJSONObject(i);
 
-            String codigoRuta = tiquete.getString(CODIGO_RUTA);
-            Ruta laRuta = aerolinea.getRuta(codigoRuta);
-            if (laRuta == null)
+            String codigoRuta = tiqueteJson.getString(CODIGO_RUTA);
+            String fechaVuelo = tiqueteJson.getString(FECHA);
+            String codigoTiquete = tiqueteJson.getString(CODIGO_TIQUETE);
+            int tarifa = tiqueteJson.getInt(TARIFA);
+            boolean tiqueteUsado = tiqueteJson.getBoolean(USADO);
+            String identificadorCliente = tiqueteJson.getString(CLIENTE).trim();
+
+            Ruta ruta = aerolinea.getRuta(codigoRuta);
+            if (ruta == null) {
                 throw new InformacionInconsistenteTiqueteException("ruta", codigoRuta);
-
-            String fechaVuelo = tiquete.getString(FECHA);
-            Vuelo elVuelo = aerolinea.getVuelo(codigoRuta, fechaVuelo);
-            if (elVuelo == null)
-                throw new InformacionInconsistenteTiqueteException("vuelo", codigoRuta + " en " + fechaVuelo);
-
-            String codigoTiquete = tiquete.getString(CODIGO_TIQUETE);
-            boolean existe = GeneradorTiquetes.validarTiquete(codigoTiquete);
-            if (existe)
-                throw new InformacionInconsistenteTiqueteException("tiquete", codigoTiquete, false);
-
-            int tarifa = tiquete.getInt(TARIFA);
-            boolean tiqueteUsado = tiquete.getBoolean(USADO);
-
-            String identificadorCliente = tiquete.getString(CLIENTE).trim();
-            Cliente elCliente = aerolinea.getCliente(identificadorCliente);
-
-            if (elCliente == null) {
-                throw new InformacionInconsistenteTiqueteException("cliente", identificadorCliente);
             }
 
-            Tiquete nuevoTiquete = new Tiquete(codigoTiquete, elVuelo, elCliente, tarifa);
-            if (tiqueteUsado)
+            Vuelo vuelo = aerolinea.getVuelo(codigoRuta, fechaVuelo);
+            if (vuelo == null) {
+                System.out.println("El vuelo para la ruta " + codigoRuta + " en fecha " + fechaVuelo + " no existe.");
+                continue;
+            }
+
+            Cliente cliente = aerolinea.getCliente(identificadorCliente);
+            if (cliente == null) {
+                System.out.println("Cliente no encontrado: " + identificadorCliente);
+                continue;
+            }
+
+            Tiquete nuevoTiquete = new Tiquete(codigoTiquete, vuelo, cliente, tarifa);
+            if (tiqueteUsado) {
                 nuevoTiquete.marcarComoUsado();
+            }
+
             GeneradorTiquetes.registrarTiquete(nuevoTiquete);
+            tiquetesCargados++;
         }
+        System.out.println("Tiquetes cargados: " + tiquetesCargados);
     }
+
 
     private void salvarTiquetes(Aerolinea aerolinea, JSONObject jobject) {
         JSONArray jTiquetes = new JSONArray();
@@ -132,7 +137,6 @@ public class PersistenciaTiquetesJson implements IPersistenciaTiquetes {
             jTiquete.put(TARIFA, tiquete.getTarifa());
             jTiquete.put(USADO, tiquete.esUsado());
             jTiquete.put(CLIENTE, tiquete.getCliente().getIdentificador());
-
             jTiquetes.put(jTiquete);
         }
         jobject.put("tiquetes", jTiquetes);

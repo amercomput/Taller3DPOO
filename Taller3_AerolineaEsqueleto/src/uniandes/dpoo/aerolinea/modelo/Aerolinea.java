@@ -298,7 +298,24 @@ public class Aerolinea
      */
     public void programarVuelo( String fecha, String codigoRuta, String nombreAvion ) throws Exception
     {
-        // TODO Implementar el método
+        Ruta ruta = getRuta(codigoRuta);
+        if (ruta == null) {
+            throw new Exception("Error: La ruta con código " + codigoRuta + " no existe.");
+        }
+
+        Avion avion = getAvion(nombreAvion);
+        if (avion == null) {
+            throw new Exception("Error: El avión con nombre " + nombreAvion + " no existe.");
+        }
+
+        for (Vuelo vuelo : vuelos) {
+            if (vuelo.getFecha().equals(fecha) && vuelo.getAvion().getNombre().equals(nombreAvion)) {
+                throw new Exception("Error: El avión " + nombreAvion + " ya tiene un vuelo programado en " + fecha);
+            }
+        }
+
+        Vuelo nuevoVuelo = new Vuelo(ruta, fecha, avion);
+        vuelos.add(nuevoVuelo);
     }
 
     /**
