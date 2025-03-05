@@ -42,6 +42,13 @@ public class PersistenciaAerolineaJson implements IPersistenciaAerolinea {
 
             aeropuertos.put(codigo, aeropuerto);
         }
+        
+        JSONArray avionesJson = json.getJSONArray("aviones");
+        for (int i = 0; i < avionesJson.length(); i++) {
+            JSONObject obj = avionesJson.getJSONObject(i);
+            Avion avion = new Avion(obj.getString("nombre"), obj.getInt("capacidad"));
+            aerolinea.agregarAvion(avion);
+        }
 
         JSONArray rutasJson = json.getJSONArray("rutas");
         for (int i = 0; i < rutasJson.length(); i++) {

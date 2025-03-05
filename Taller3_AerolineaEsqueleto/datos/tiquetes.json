@@ -14,7 +14,7 @@
 		{
 			"tipoCliente": "Natural",
 			"nombre": "Bob", 
-			"identificador": "cccc"
+			"identificador": "DDDDD"
 		},
 		{
 			"tipoCliente": "CORPORATIVO",
@@ -30,7 +30,7 @@
 			"codigoTiquete" : "8769647",
 			"tarifa": 450000,
 			"usado": false,
-			"cliente": "Bob"
+			"cliente": "DDDDD"
 		}
 	]
 }

@@ -31,5 +31,10 @@
             "fecha": "2024-11-05",
             "avion": "Boeing-737"
         }
-    ]
+    ], 
+	"aviones":[
+		{"nombre":"Boeing-737", 
+		 "capacidad": "45" 
+		}
+	]
 }
